@@ -1,7 +1,7 @@
-import Vue from 'vue'
-import App from './App.vue'
-import router from './router'
-import store from './store'
+import Vue from 'vue';
+import App from './App.vue';
+import router from './router';
+import store from './store';
 import axios from 'axios';
 import firebase from 'firebase';
 
@@ -20,12 +20,24 @@ const firebaseConfig = {
 };
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
-firebase.analytics();
+// firebase.analytics();
 
-new Vue({
-  router,
-  store,
-  render: h => h(App)
-}).$mount('#app')
+let app;
+firebase.auth().onAuthStateChanged(user => {
+  console.log("user", user);
+  if (!app) {
+    app = new Vue({
+      router, 
+      store, 
+      render: h => h(App)
+    }).$mount("#app");
+  }
+});
+
+// new Vue({
+//   router,
+//   store,
+//   render: h => h(App)
+// }).$mount('#app')
 
 //https://www.youtube.com/watch?v=XtbYBoKb2zY 30:31
